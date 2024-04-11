@@ -2,7 +2,7 @@
 using namespace sf;
 int main() {
     // Create a window with SFML
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Window");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "test the sfml window");
 
     // Main loop
     while (window.isOpen()) {
