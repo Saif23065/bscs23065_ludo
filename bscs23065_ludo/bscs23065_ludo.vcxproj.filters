@@ -18,12 +18,18 @@
     <ClCompile Include="bscs23065_ludo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Dice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Square.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

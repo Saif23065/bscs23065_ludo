@@ -2,22 +2,32 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 using namespace std;
-
+#include<vector>
+#include "Dice.h"
 
 // Mobeen entered into the repository
 
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(750, 750), "Ludo Game");
+    sf::RenderWindow window(sf::VideoMode(1200, 700), "Ludo Game");
     sf::Vector2u windowSize = window.getSize();
     int windowWidth = windowSize.x;
     int windowLength = windowSize.y;
 
+    vector<string> dices = {
+        "assets/pics/diceOne.png", "assets/pics/diceTwo.png","assets/pics/diceThree.png",
+        "assets/pics/diceFour.png", "assets/pics/diceFive.png","assets/pics/diceSix.png"
+    };
+
+    Dice dice(dices);
+    dice.setposition(800, 300);
+
+    dice.setScale(0.5f, 0.5f);
     sf::Texture ludoboard;
-    if (!ludoboard.loadFromFile("assets/pics/board.jpg")) {
+    if (!ludoboard.loadFromFile("assets/pics/WBoard.jpg")) {
         return EXIT_FAILURE;
     }
-
+    
     sf::Sprite sprite;
     sprite.setTexture(ludoboard);
 
@@ -25,9 +35,21 @@ int main() {
     if (!click.loadFromFile("assets/audio/click.wav")) {
         return EXIT_FAILURE;
     }
-
     sf::Sound clickSound;
-        clickSound.setBuffer(click);
+    clickSound.setBuffer(click);
+
+    sf::SoundBuffer diceroll;
+    if (!diceroll.loadFromFile("assets/audio/dice.mp3")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sound rollSound;
+    rollSound.setBuffer(diceroll);
+    
+    sf::Clock clock;
+    float rollingDuration = 1.0f;
+    float rollTime = 0.0f;
+
+    bool firstclick = true;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -41,16 +63,33 @@ int main() {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     // Get the position of the click
                     sf::Vector2i clickPos = sf::Mouse::getPosition(window);
-
+                    int roll = dice.roll();
+                    cout << "DICE ROLL : " << roll << endl;
+                    dice.setRolling(true);
+                    rollSound.play();
                     // Print the position to the console
-                    std::cout << "Mouse Click Position: x = " << clickPos.x/50 << ", y = " << clickPos.y/50 << std::endl;
-                    clickSound.play();
+                    std::cout << "Mouse Click Position: x = " << clickPos.x/46 << ", y = " << clickPos.y/46 << std::endl;
+                    if (firstclick) {
+                        clickSound.play();
+                    }
+                    firstclick = false;
                 }
             }
         }
+        float newt = clock.restart().asSeconds();
+        if (dice.isrolling()) {
+            rollTime += newt;
+            if (rollTime >= rollingDuration) {
+                dice.setRolling(false);
+                //rollTime = 0.0f;
+                
+            }
+        }
+        dice.update(newt);
 
         window.clear();
         window.draw(sprite);
+        window.draw(dice.getSprite());
         window.display();
     }
 
