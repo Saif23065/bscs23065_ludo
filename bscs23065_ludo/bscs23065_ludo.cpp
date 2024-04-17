@@ -17,6 +17,14 @@ int main() {
     sf::Sprite sprite;
     sprite.setTexture(ludoboard);
 
+    sf::SoundBuffer click;
+    if (!click.loadFromFile("assets/audio/click.wav")) {
+        return EXIT_FAILURE;
+    }
+
+    sf::Sound clickSound;
+        clickSound.setBuffer(click);
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -32,6 +40,7 @@ int main() {
 
                     // Print the position to the console
                     std::cout << "Mouse Click Position: x = " << clickPos.x/50 << ", y = " << clickPos.y/50 << std::endl;
+                    clickSound.play();
                 }
             }
         }
