@@ -17,6 +17,11 @@ int Dice::roll() {
 void Dice::setposition(float x, float y) {
 	diceSprite.setPosition(x, y);
 }
+void Dice::setframe(int frame) {
+	if (frameIndex > 0 && frameIndex < dices.size()) {
+		diceSprite.setTexture(dices[frameIndex]);
+	}
+}
 void Dice::setRolling(bool isrolling) {
 	rolling = isrolling;
 }

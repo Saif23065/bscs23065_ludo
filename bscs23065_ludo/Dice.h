@@ -25,6 +25,6 @@ public:
 	void setRolling(bool isrolling);
 	bool isrolling();
 	void setScale(float scaleX, float scaleY);
-
+	void setframe(int frame);
 
 };
